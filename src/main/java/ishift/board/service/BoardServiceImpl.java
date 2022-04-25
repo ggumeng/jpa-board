@@ -74,7 +74,17 @@ public class BoardServiceImpl implements BoardService{
     @Transactional
     public ResponseDto<Board> modifyContent(int boardIdx, Board board) {
         
-        return null;
+        // boardIdx로 검색해서 없다면 illegalArgumentException throw
+        Board modifyBoard = boardRepository.findById(boardIdx)
+                            .orElseThrow(() -> {
+                                throw new IllegalArgumentException();
+                            });
+
+        modifyBoard.setTitle(board.getTitle());
+        modifyBoard.setContent(board.getContent());
+        
+        ResponseDto<Board> resModify = new ResponseDto<Board>(HttpStatus.OK, modifyBoard);
+        return resModify;
     }
 
     /*

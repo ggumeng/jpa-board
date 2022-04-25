@@ -42,7 +42,7 @@ $("#modify-btn").click(() => {
     console.log(data);
 
     // ajax 통신으로 PUT 요청
-    // 성공할 시 '게시글 작성이 완료되었습니다' 라는 alert창과 함께 메인페이지로 이동
+    // 성공할 시 '게시글 수정이 완료되었습니다' 라는 alert창과 함께 메인페이지로 이동
     $.ajax({
         type: "PUT",
         url: "/board/" + idx,
@@ -50,10 +50,10 @@ $("#modify-btn").click(() => {
         contentType: "application/json",
         dataType: "json"
     }).done(function(res){
-        alert("성공");
+        alert("게시글 수정이 완료되었습니다.");
         location.href = "/";
     }).fail(function(error){
-        alert("오류");
+        alert("시스템 오류로 인해 수정에 실패하였습니다.");
     });
 });
 
@@ -72,7 +72,7 @@ $("#delete-btn").click(() => {
         alert("게시글 삭제가 완료되었습니다.");
         location.href = "/";
     }).fail(function(error){
-        alert("오류");
+        alert("시스템 오류로 인해 삭제에 실패하였습니다.");
     });
 });
 
