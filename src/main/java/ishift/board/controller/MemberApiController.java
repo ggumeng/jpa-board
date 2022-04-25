@@ -12,6 +12,7 @@ import ishift.board.dto.ResponseDto;
 import ishift.board.model.Member;
 import ishift.board.service.MemberService;
 
+// 회원 데이터를 다루는 컨트롤러
 @RestController
 public class MemberApiController {
     

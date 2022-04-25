@@ -4,7 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,6 +41,32 @@ public class BoardApiController {
         
         logger.info(newBoard.toString());
         return newBoard; 
+    }
+
+    /*
+     *  게시글 수정 프로세스
+     *  method : PUT
+     *  @param idx 게시글 번호
+     * 
+     */
+    @PutMapping("/board/{boardIdx}")
+    public ResponseDto<Board> modifyProc(@PathVariable int boardIdx, @RequestBody Board board){
+
+        logger.info(board.toString());
+        ResponseDto<Board> modifyBoard = boardService.modifyContent(boardIdx, board);
+        
+        return modifyBoard;
+    }
+
+    /*
+     *  게시글 삭제 프로세스
+     *  method : DELETE
+     *  @param idx 게시글 번호
+     * 
+     */
+    @DeleteMapping("/board/{boardIdx}")
+    public void deleteProc(@PathVariable int boardIdx){
+        boardService.deleteContent(boardIdx);
     }
 
 }

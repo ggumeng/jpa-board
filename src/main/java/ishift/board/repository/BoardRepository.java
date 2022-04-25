@@ -7,5 +7,5 @@ import ishift.board.model.Board;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Integer>{
-    
+
 }
