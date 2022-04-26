@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -43,7 +44,8 @@ public class Reply {
     @JoinColumn(name="boardIdx")
     private Board board;
 
-    @Column (nullable = false, length = 50)
+    @NotBlank
+    @Column (length = 50)
     private String replyContent;
 
     @CreationTimestamp

@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import ishift.board.dto.ResponseDto;
+import ishift.board.exception.BoardException;
 import ishift.board.model.Board;
 import ishift.board.model.Member;
 import ishift.board.model.Reply;
@@ -37,7 +38,7 @@ public class ReplyServiceImpl implements ReplyService {
         // boardIdx 로 게시글 정보를 받아옴
         Board board = boardRepository.findById(boardIdx)
                     .orElseThrow(() -> {
-                        throw new IllegalArgumentException("없는 게시글 번호입니다.");
+                        throw new BoardException(HttpStatus.NOT_FOUND,"존재하지 않는 게시글입니다.");
                     });
 
         // reply 객체에 board와 member를 넣어줌
@@ -51,6 +52,10 @@ public class ReplyServiceImpl implements ReplyService {
         return new ResponseDto<String>(HttpStatus.OK, "댓글 작성이 완료되었습니다.");
     }
 
+    /**
+     *  댓글 삭제 서비스
+     *  @param replyIdx 댓글 번호
+     */
     @Transactional
     public ResponseDto<String> deleteReply(int replyIdx) {
         

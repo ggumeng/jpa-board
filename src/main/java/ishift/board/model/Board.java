@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -54,11 +55,13 @@ public class Board {
     private Member member;
 
     // 게시글 제목 : 20 길이의 null 값을 허용하지 않는 String 타입
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
+    @NotBlank
     private String title;
 
     // 게시글 내용 : 에디터 썸머노트를 이용해 대용량 데이터가 될 수 있으므로 @Lob 어노테이션
     @Lob
+    @NotBlank
     private String content;
 
     // 게시글 조회수 : default가 0인 Integer 타입

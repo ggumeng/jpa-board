@@ -1,11 +1,13 @@
 package ishift.board.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import ishift.board.exception.BoardException;
 import ishift.board.model.Member;
 import ishift.board.repository.MemberRepository;
 
@@ -21,7 +23,7 @@ public class MemberDetailService implements UserDetailsService{
         
         // 기존에 있는 회원인지 확인
         Member authMember = memberRepository.findByMemberId(username).orElseThrow(() -> {
-            throw new IllegalArgumentException();
+            throw new BoardException(HttpStatus.INTERNAL_SERVER_ERROR, "존재하지 않는 회원입니다.");
         });
 
         // 회원 인증정보를 반환한다

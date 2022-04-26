@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import ishift.board.config.MemberDetail;
 import ishift.board.dto.ResponseDto;
+import ishift.board.exception.BoardException;
 import ishift.board.model.Board;
 import ishift.board.repository.BoardRepository;
 
@@ -57,7 +58,7 @@ public class BoardServiceImpl implements BoardService{
         // boardIdx로 검색해서 없다면 illegalArgumentException throw
         Board detailBoard = boardRepository.findById(boardIdx)
                             .orElseThrow(() -> {
-                                throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+                                throw new BoardException(HttpStatus.NOT_FOUND,"존재하지 않는 게시글입니다.");
                             });
         
 
@@ -78,7 +79,7 @@ public class BoardServiceImpl implements BoardService{
         // boardIdx로 검색해서 없다면 illegalArgumentException throw
         Board modifyBoard = boardRepository.findById(boardIdx)
                             .orElseThrow(() -> {
-                                throw new IllegalArgumentException("존재하지 않는 회원입니다.");
+                                throw new BoardException(HttpStatus.NOT_FOUND,"존재하지 않는 게시글입니다.");
                             });
 
         // view 단에서 받아온 데이터를 modifyBoard에 set

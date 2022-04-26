@@ -12,6 +12,7 @@ import ishift.board.model.Member;
 public interface MemberRepository extends JpaRepository<Member, Integer>{
 
     // @Query("select * from member where id = ?")
+    // 회원의 아이디로 DB 조회
     Optional<Member> findByMemberId(String memberId);
 
 }

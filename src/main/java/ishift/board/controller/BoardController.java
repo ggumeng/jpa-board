@@ -58,20 +58,17 @@ public class BoardController {
                             Authentication authentication){
 
         Board detailBoard = boardService.getBoardDetail(boardIdx);
-        
-        if (detailBoard.getMember().getMemberId() == authentication.getName()){
-            logger.info(authentication.toString());
-            model.addAttribute("principal", authentication.getPrincipal());
-        }
-        
+
+        // model에 boardIdx로 조회한 게시글 정보 (detailBoard) 와 로그인한 회원 정보 (principal) 추가
         model.addAttribute("principal", authentication.getPrincipal());
-        // model에 boardIdx로 조회한 게시글 정보 (detailBoard) 추가
         model.addAttribute("detailBoard", detailBoard);
         return "board/boardDetail.html";
     }
 
+    // 게시글 수정 페이지
     @GetMapping("/board/modify-form/{boardIdx}")
     public String modifyForm(@PathVariable int boardIdx, Model model){
+        // 수정할 게시글의 번호를 담아 service에게 전달 => 번호에 맞는 게시글 정보를 받아옴
         Board detailBoard = boardService.getBoardDetail(boardIdx);
         model.addAttribute("detailBoard", detailBoard);
         return "board/modifyForm.html";

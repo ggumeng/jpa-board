@@ -1,4 +1,3 @@
-
 // 게시글 등록
 $("#btn-save").click(() => {
 
@@ -17,18 +16,20 @@ $("#btn-save").click(() => {
         contentType: "application/json",
         dataType: "json"
     }).done(function(res){
-        alert("게시글 작성이 완료되었습니다.");
+        alert(res.data);
         location.href = "/";
     }).fail(function(error){
-        alert("시스템 오류입니다.");
+        alert(error.responseJSON.message);
     });
 });
 
+// 게시글 수정 폼 이동
 $("#modify-form-btn").click(() => {
     let data = $("#idx").val();
     location.href = "/board/modify-form/" + data;
 });
 
+// 게시글 수정
 $("#modify-btn").click(() => {
 
     // 수정할 제목과 내용을 하나로 묶음
@@ -50,13 +51,14 @@ $("#modify-btn").click(() => {
         contentType: "application/json",
         dataType: "json"
     }).done(function(res){
-        alert("게시글 수정이 완료되었습니다.");
+        alert(res.data);
         location.href = "/";
     }).fail(function(error){
-        alert("시스템 오류로 인해 수정에 실패하였습니다.");
+        alert(error.responseJSON.message);
     });
 });
 
+// 게시글 삭제
 $("#delete-btn").click(() => {
 
     // 게시글 번호 선언
@@ -69,13 +71,14 @@ $("#delete-btn").click(() => {
         type: "DELETE",
         url: "/board/" + data
     }).done(function(res){
-        alert("게시글 삭제가 완료되었습니다.");
+        alert(res.data);
         location.href = "/";
     }).fail(function(error){
-        alert("시스템 오류로 인해 삭제에 실패하였습니다.");
+        alert(error.responseJSON.message);
     });
 });
 
+// 댓글 등록
 $("#reply-btn").click(() => {
 
     // 게시판 번호와 댓글 내용을 하나로 묶음
@@ -97,14 +100,18 @@ $("#reply-btn").click(() => {
         alert(res.data);
         location.reload();
     }).fail(function(error){
-        alert("댓글 작성에 실패하였습니다.");
+        alert(error.responseJSON.message);
     });
 });
 
+// 댓글 삭제
 $("#reply-delete-btn").click(() => {
 
+    // 댓글 번호 선언
     let replyIdx = $("#reply-idx").val();
 
+    // ajax 통신으로 DELETE 요청
+    // 성공할 시 '댓글 삭제가 완료되었습니다' 라는 alert창과 함께 메인페이지로 이동
     $.ajax({
         type: "DELETE",
         url: "/board/reply/" + replyIdx,
@@ -112,7 +119,7 @@ $("#reply-delete-btn").click(() => {
         alert(res.data);     
         location.reload();
     }).fail(function(error){
-        alert("댓글 삭제에 실패하였습니다.");
+        alert(error.responseJSON.message);
     });
 });
 

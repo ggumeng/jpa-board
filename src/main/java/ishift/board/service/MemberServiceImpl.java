@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import ishift.board.dto.ResponseDto;
+import ishift.board.exception.BoardException;
 import ishift.board.model.Member;
 import ishift.board.repository.MemberRepository;
 
@@ -28,7 +29,7 @@ public class MemberServiceImpl implements MemberService{
 
         // 회원가입 시 존재하는 아이디일때 500 코드를 담아서 return
         if (memberRepository.findByMemberId(member.getMemberId()).isPresent()){
-            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+            throw new BoardException(HttpStatus.BAD_REQUEST, "이미 존재하는 회원입니다.");
         }
         
         // 받아온 비밀번호 정보를 encoding 후 member에 set

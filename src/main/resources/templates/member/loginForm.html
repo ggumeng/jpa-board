@@ -46,7 +46,10 @@
 			<button type="submit" id="login-btn" class="btn btn-primary">Login</button>
 		</form>
 	</div>
-
+<script th:if="${param.error}">
+	// 로그인 오류 메시지
+	alert("존재하지 않는 회원입니다.");
+</script>
 <script src="/js/member.js"></script>
 </body>
 
