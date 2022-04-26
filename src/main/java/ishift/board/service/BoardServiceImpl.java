@@ -13,9 +13,9 @@ import ishift.board.dto.ResponseDto;
 import ishift.board.model.Board;
 import ishift.board.repository.BoardRepository;
 
-/*
-    BoardService 구현부
-*/
+ /** 
+  *  BoardService 구현부
+  */
 
 @Service
 public class BoardServiceImpl implements BoardService{
@@ -24,30 +24,30 @@ public class BoardServiceImpl implements BoardService{
     @Autowired
     private BoardRepository boardRepository;
 
-    /*
-        게시글 등록 서비스
-        @param Board(vo) 게시글 정보
-    */
+    /** 
+     * 게시글 등록 서비스
+     * @param Board(vo) 게시글 정보 
+     */
     @Transactional
-    public ResponseDto<Board> writeContent(Board board, MemberDetail memberDetail) {
+    public ResponseDto<String> writeContent(Board board, MemberDetail memberDetail) {
         // board 정보에 시큐리티 세션에 담긴 member 정보를 set
         board.setMember(memberDetail.getMember());
         // save 함수를 이용해 db에 저장
-        Board newBoard = boardRepository.save(board);
+        boardRepository.save(board);
 
-        return new ResponseDto<Board>(HttpStatus.OK, newBoard);
+        return new ResponseDto<String>(HttpStatus.OK, "게시글 등록이 완료되었습니다.");
     }
 
-    /*
+    /**
      *  모든 게시글 조회 서비스
      *  @param Pagealbe 페이징 정보
      */
-    @Override
+    @Transactional
     public Page<Board> getAllBoardList(Pageable pageable) {
         return boardRepository.findAll(pageable);
     }
 
-    /*
+    /** 
      *  게시글 상세조회 서비스
      *  @param boardIdx 게시글 번호
      */
@@ -57,9 +57,10 @@ public class BoardServiceImpl implements BoardService{
         // boardIdx로 검색해서 없다면 illegalArgumentException throw
         Board detailBoard = boardRepository.findById(boardIdx)
                             .orElseThrow(() -> {
-                                throw new IllegalArgumentException();
+                                throw new IllegalArgumentException("존재하지 않는 회원입니다.");
                             });
         
+
         
         // 게시글 열람 -> 조회수 1 증가
         // 더티 체킹으로 인해 자동으로 DB에 반영
@@ -67,27 +68,31 @@ public class BoardServiceImpl implements BoardService{
         return detailBoard;
     }
 
-    /*
+    /** 
      *  게시글 수정 서비스
      *  @param boardIdx 게시글 번호
      */
     @Transactional
-    public ResponseDto<Board> modifyContent(int boardIdx, Board board) {
+    public ResponseDto<String> modifyContent(int boardIdx, Board board) {
         
         // boardIdx로 검색해서 없다면 illegalArgumentException throw
         Board modifyBoard = boardRepository.findById(boardIdx)
                             .orElseThrow(() -> {
-                                throw new IllegalArgumentException();
+                                throw new IllegalArgumentException("존재하지 않는 회원입니다.");
                             });
 
+        // view 단에서 받아온 데이터를 modifyBoard에 set
         modifyBoard.setTitle(board.getTitle());
         modifyBoard.setContent(board.getContent());
         
-        ResponseDto<Board> resModify = new ResponseDto<Board>(HttpStatus.OK, modifyBoard);
+        ResponseDto<String> resModify = new ResponseDto<String>(HttpStatus.OK, "게시글 수정이 완료되었습니다.");
+        
+        // 더티 체킹 => 자동 update
+        
         return resModify;
     }
 
-    /*
+    /**
      *   게시글 삭제 서비스
      *   @param boardIdx 게시글 번호
      */

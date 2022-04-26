@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -38,16 +40,20 @@ public class Member {
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="ID_GENERATOR")
     private int id;
 
+    // H2 Database 같은 경우 null 값을 insert 하면 빈 문자열로 들어가버림 (nullable=false, @notnull X)
     // 회원 ID : null값 허용하지 않으며 20길이의 String 타입
-    @Column(nullable = false, length = 20)
+    @Column(length = 20)
+    @NotBlank
     private String memberId;
 
     // 회원 비밀번호 : null값 허용하지 않으며 100길이의 String 타입 => 암호화한 패스워드를 넣기 위함
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
+    @NotBlank
     private String password;
 
     // 회원 닉네임 : null값 허용하지 않으며 10길이의 String 타입
-    @Column(nullable = false, length = 10)
+    @Column(length = 10)
+    @NotBlank
     private String nickname;
 
     // 회원 생성일자 : CreationTimestamp로 자동 생성

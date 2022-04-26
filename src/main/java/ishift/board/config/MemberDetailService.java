@@ -20,12 +20,9 @@ public class MemberDetailService implements UserDetailsService{
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         
         // 기존에 있는 회원인지 확인
-        Member authMember = memberRepository.findByMemberId(username);
-
-        // 없을 경우 throw exception
-        if (authMember.getMemberId() == null){
+        Member authMember = memberRepository.findByMemberId(username).orElseThrow(() -> {
             throw new IllegalArgumentException();
-        }
+        });
 
         // 회원 인증정보를 반환한다
         return new MemberDetail(authMember);

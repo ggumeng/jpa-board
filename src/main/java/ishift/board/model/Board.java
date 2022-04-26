@@ -1,19 +1,25 @@
 package ishift.board.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.DynamicInsert;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +39,7 @@ import lombok.NoArgsConstructor;
     initialValue=1,
     allocationSize=1
 )
+@DynamicInsert
 public class Board {
     
     // 게시글 IDX : 시퀀스 전략을 사용해 PRIMARY KEY로 저장, Integer 타입 (1부터 시작)
@@ -57,6 +64,11 @@ public class Board {
     // 게시글 조회수 : default가 0인 Integer 타입
     @ColumnDefault("0")
     private int viewCount;
+
+    // 댓글 목록
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OrderBy("replyIdx desc")
+    private List<Reply> replys;
 
     // 게시글 생성일자 : CreationTimeStamp 로 생성일자 자동생성
     @CreationTimestamp

@@ -37,9 +37,9 @@
     <br><br><br>
     <div class="container">
         <div class="d-flex justify-content-between">
-            <div class="d-flex flex-column">
+            <div class="d-flex">
                 <h1 th:text="${detailBoard.title}"></h1>
-                <div th:if="${principal != null}">
+                <div class="ml-3 mt-2" th:if="${principal.member.id eq detailBoard.member.id}">
                     <button id="modify-form-btn" type="button" class="btn btn-info">수정</button>
                     <button id="delete-btn" type="button" class="btn btn-danger">삭제</button>
                 </div>
@@ -60,9 +60,9 @@
         <hr style= "border: solid 1px lightgrey">
 
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Input Reply">
+            <input id="reply-content" type="text" class="form-control" placeholder="Input Reply">
             <div class="input-group-append">
-              <button class="btn btn-primary" type="button">Go</button>
+              <button id="reply-btn" class="btn btn-primary" type="button">Go</button>
             </div>
         </div>
 
@@ -70,13 +70,16 @@
             <thead>
               <tr>
                 <th width="100px;">작성자</th>
-                <th>댓글 내용</th>
+                <th width="930px;">댓글 내용</th>
+                <th>삭제</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody th:each="reply : ${detailBoard.replys}">
               <tr>
-                <td th:if{sec:authentication="name"></td>
-                <td>Doesddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd</td>
+                <td th:text="${reply.member.memberId}"></td>
+                <td th:text="${reply.replyContent}"></td>
+                <input type="hidden" th:value="${reply.replyIdx}" id="reply-idx"/>
+                <td th:if="${principal.member.id eq reply.member.id}"><button class="btn btn-danger btn-sm" id="reply-delete-btn" type="button">삭제</button></td>
               </tr>
             </tbody>
           </table>

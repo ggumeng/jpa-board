@@ -2,7 +2,7 @@
 // 게시글 등록
 $("#btn-save").click(() => {
 
-    // 입력한 데이터들을 하나로 묶음
+    // 등록할 게시글의 제목과 내용을 하나로 묶음
     let data = {
         title: $('#title').val(),
         content: $('#content').val()
@@ -31,7 +31,7 @@ $("#modify-form-btn").click(() => {
 
 $("#modify-btn").click(() => {
 
-    // 게시글 번호 변수 선언
+    // 수정할 제목과 내용을 하나로 묶음
     let data = {
         title: $("#title").val(),
         content: $("#content").val()
@@ -59,7 +59,7 @@ $("#modify-btn").click(() => {
 
 $("#delete-btn").click(() => {
 
-    // 입력한 데이터들을 하나로 묶음
+    // 게시글 번호 선언
     let data = $("#idx").val();
     console.info(data);
 
@@ -73,6 +73,46 @@ $("#delete-btn").click(() => {
         location.href = "/";
     }).fail(function(error){
         alert("시스템 오류로 인해 삭제에 실패하였습니다.");
+    });
+});
+
+$("#reply-btn").click(() => {
+
+    // 게시판 번호와 댓글 내용을 하나로 묶음
+    let data = {
+        replyContent: $("#reply-content").val()
+    }
+
+    let boardIdx = $("#idx").val();
+
+    // ajax 통신으로 POST 요청
+    // 성공 시 "댓글 작성이 완료되었습니다." 라는 메세지와 함께 새로고침
+    $.ajax({
+        type: "POST",
+        url: "/board/reply-proc/" + boardIdx,
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        dataType: "json"
+    }).done(function(res){
+        alert(res.data);
+        location.reload();
+    }).fail(function(error){
+        alert("댓글 작성에 실패하였습니다.");
+    });
+});
+
+$("#reply-delete-btn").click(() => {
+
+    let replyIdx = $("#reply-idx").val();
+
+    $.ajax({
+        type: "DELETE",
+        url: "/board/reply/" + replyIdx,
+    }).done(function(res){
+        alert(res.data);     
+        location.reload();
+    }).fail(function(error){
+        alert("댓글 삭제에 실패하였습니다.");
     });
 });
 

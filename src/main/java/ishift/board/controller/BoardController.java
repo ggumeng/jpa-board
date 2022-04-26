@@ -34,9 +34,6 @@ public class BoardController {
         // DB에 저장된 게시판 목록들을 페이징 처리해 Page에 Board vo 형식으로 저장
         Page<Board> boardList = boardService.getAllBoardList(pageable);
 
-        logger.info(Long.toString(boardList.getTotalElements()));
-        logger.info(boardList.toSet().toString());
-        
         if (boardList.getTotalElements() > 0){
             // model 속성에 추가 => 게시글이 한 개라도 있을 시 boardList 추가
             model.addAttribute("boardList", boardList);
@@ -56,18 +53,18 @@ public class BoardController {
 
     // 게시글 상세조회 페이지
     @GetMapping("/board/{boardIdx}")
-    public String viewBoard(@PathVariable int boardIdx, Model model, Authentication authentication){
+    public String viewBoard(@PathVariable int boardIdx, 
+                            Model model, 
+                            Authentication authentication){
 
         Board detailBoard = boardService.getBoardDetail(boardIdx);
-        logger.info(detailBoard.toString());
-
-        logger.info(authentication.getName());
-
+        
         if (detailBoard.getMember().getMemberId() == authentication.getName()){
             logger.info(authentication.toString());
-            model.addAttribute("principal", authentication);
+            model.addAttribute("principal", authentication.getPrincipal());
         }
-
+        
+        model.addAttribute("principal", authentication.getPrincipal());
         // model에 boardIdx로 조회한 게시글 정보 (detailBoard) 추가
         model.addAttribute("detailBoard", detailBoard);
         return "board/boardDetail.html";

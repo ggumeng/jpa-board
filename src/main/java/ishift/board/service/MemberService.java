@@ -5,6 +5,7 @@ import ishift.board.model.Member;
 
 public interface MemberService {
 
-    ResponseDto<Member> joinMember(Member member);
+    // 회원가입 서비스
+    ResponseDto<String> joinMember(Member member);
     
 }

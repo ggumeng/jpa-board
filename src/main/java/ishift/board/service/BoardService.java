@@ -10,7 +10,7 @@ import ishift.board.model.Board;
 public interface BoardService {
 
     // 게시글 등록 서비스
-    ResponseDto<Board> writeContent(Board board, MemberDetail memberDetail);
+    ResponseDto<String> writeContent(Board board, MemberDetail memberDetail);
 
     // 게시글 전체조회 서비스
     Page<Board> getAllBoardList(Pageable pageable);
@@ -19,7 +19,7 @@ public interface BoardService {
     Board getBoardDetail(int boardIdx);
 
     // 게시글 수정 서비스
-    ResponseDto<Board> modifyContent(int boardIdx, Board board);
+    ResponseDto<String> modifyContent(int boardIdx, Board board);
 
     // 게시글 삭제 서비스
     void deleteContent(int boardIdx);
